@@ -47,6 +47,30 @@ urlpatterns = [
         ),
         name="turbo2",
     ),
+    path(
+        "turbo-beta1/",
+        TemplateView.as_view(template_name="turbo/index_beta1.html"),
+        name="turbo_beta1"
+    ),
+    path(
+        "turbo-beta1/2",
+        TemplateView.as_view(
+            template_name="turbo/index_beta1.html", extra_context={"page_num": "2"}
+        ),
+        name="turbo_beta1_2"
+    ),
+    path(
+        "turbo-beta2/",
+        TemplateView.as_view(template_name="turbo/index_beta2.html"),
+        name="turbo_beta2"
+    ),
+    path(
+        "turbo-beta2/2",
+        TemplateView.as_view(
+            template_name="turbo/index_beta2.html", extra_context={"page_num": "2"}
+        ),
+        name="turbo_beta2_2"
+    ),
     path("admin/", admin.site.urls),
     path("ajax/increment", increment, name="ajax_increment"),
 ] + debug_toolbar_urls()
