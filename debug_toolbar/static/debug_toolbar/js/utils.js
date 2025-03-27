@@ -71,7 +71,22 @@ const $$ = {
 };
 
 function ajax(url, init) {
-    return fetch(url, Object.assign({ credentials: "same-origin" }, init))
+    // Store reference to native fetch to ensure we can always access it
+    const nativeFetch = window.fetch;
+    
+    // Try to get Turbo's fetch if it exists
+    const turboFetch = window.Turbo && window.Turbo.fetch;
+    
+    // Use Turbo fetch if available, otherwise fall back to native fetch
+    const fetchToUse = turboFetch || nativeFetch;
+    
+    return fetchToUse(url, Object.assign({ 
+        credentials: "same-origin",
+        headers: {
+            "Accept": "application/json",
+            "X-Requested-With": "XMLHttpRequest"
+        }
+    }, init))
         .then((response) => {
             if (response.ok) {
                 return response

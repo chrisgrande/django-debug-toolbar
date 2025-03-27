@@ -21,6 +21,31 @@ const djdt = {
     init() {
         const djDebug = getDebugElement();
         djdt.needUpdateOnFetch = djDebug.dataset.updateOnFetch === "True";
+        
+        // Set up Turbo fetch observer if Turbo is present
+        if (window.Turbo && djdt.needUpdateOnFetch) {
+            document.addEventListener("turbo:before-fetch-request", (event) => {
+                const storeId = djDebug.dataset.storeId;
+                if (storeId) {
+                    event.detail.fetchOptions.headers = {
+                        ...event.detail.fetchOptions.headers,
+                        "X-Store-Id": storeId
+                    };
+                }
+            });
+            
+            document.addEventListener("turbo:before-fetch-response", (event) => {
+                const response = event.detail.fetchResponse;
+                if (response.header("X-Store-Id")) {
+                    const url = new URL(djDebug.dataset.storeUrl, window.location);
+                    url.searchParams.append("store_id", response.header("X-Store-Id"));
+                    ajax(url).then((data) => {
+                        replaceToolbarState(response.header("X-Store-Id"), data);
+                    });
+                }
+            });
+        }
+        
         $$.on(djDebug, "click", "#djDebugPanelList li a", function (event) {
             event.preventDefault();
             if (!this.className) {

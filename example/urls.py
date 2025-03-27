@@ -71,6 +71,18 @@ urlpatterns = [
         ),
         name="turbo_beta2_2"
     ),
+    path(
+        "turbo-8/",
+        TemplateView.as_view(template_name="turbo/index_8.html"),
+        name="turbo_8"
+    ),
+    path(
+        "turbo-8/2",
+        TemplateView.as_view(
+            template_name="turbo/index_8.html", extra_context={"page_num": "2"}
+        ),
+        name="turbo_8_2"
+    ),
     path("admin/", admin.site.urls),
     path("ajax/increment", increment, name="ajax_increment"),
 ] + debug_toolbar_urls()

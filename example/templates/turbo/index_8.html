@@ -1,0 +1,40 @@
+{% load cache %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Index of Tests - Turbo 8.0.13</title>
+    <script src="//unpkg.com/@hotwired/turbo@8.0.13"></script>
+    <style>
+      .notice {
+        padding: 1rem;
+        margin: 1rem 0;
+        border-radius: 4px;
+        background-color: #fff3cd;
+        border: 1px solid #ffeeba;
+        color: #856404;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="notice">
+        <strong>Note:</strong> Hard refresh the page (Cmd/Ctrl + Shift + R) before testing navigation between pages 1 and 2. The  debug toolbar should <strong>not</strong> work correctly with this version. 
+      </div>
+    <h1>Turbo Index (v8.0.13) - Page {{page_num|default:"1"}}</h1>
+
+    <p>
+      For the debug panel to remain through page navigation, add the setting:
+      <pre>
+DEBUG_TOOLBAR_CONFIG = {
+  "ROOT_TAG_EXTRA_ATTRS": "data-turbo-permanent"
+}
+      </pre>
+    </p>
+    <ul>
+      <li><a href="/admin/">Django Admin</a></li>
+      <li><a href="{% url "turbo_8" %}">Turbo 8.0.13 - Page 1</a></li>
+      <li><a href="{% url "turbo_8_2" %}">Turbo 8.0.13 - Page 2</a></li>
+    </ul>
+    <a href="{% url "home" %}">Home</a>
+  </body>
+</html> 

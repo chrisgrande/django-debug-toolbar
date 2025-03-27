@@ -18,7 +18,7 @@
   </head>
   <body>
     <div class="notice">
-      <strong>Note:</strong> Hard refresh the page (Cmd/Ctrl + Shift + R) to see broken behavior with the debug toolbar.
+      <strong>Note:</strong> Hard refresh the page (Cmd/Ctrl + Shift + R) before testing navigation between pages 1 and 2. The  debug toolbar should <strong>not</strong> work correctly with this version. 
     </div>
     <h1>Turbo Index (v8.0.0-beta.2) - Page {{page_num|default:"1"}}</h1>
 
@@ -38,33 +38,6 @@ DEBUG_TOOLBAR_CONFIG = {
     </ul>
 
     <p>
-      <span>Value </span>
-      <span id="session-value">{{ request.session.value|default:0 }}</span>
-      <button id="incrementFetch" data-url="{% url 'ajax_increment' %}" type="button">Increment via fetch</button>
-      <button id="incrementXHR" data-url="{% url 'ajax_increment' %}" type="button">Increment via XHR</button>
-    </p>
-    <script>
-      const incrementFetch = document.querySelector("#incrementFetch");
-      const incrementXHR = document.querySelector("#incrementXHR");
-      const value = document.querySelector("#session-value");
-      incrementFetch.addEventListener("click", function () {
-        fetch(incrementFetch.dataset.url).then( function (response) {
-          response.json().then(function(data) {
-            value.innerHTML = data.value;
-          });
-        });
-      });
-      incrementXHR.addEventListener("click", function () {
-        const xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = () => {
-          if (xhr.readyState === 4) {
-            value.innerHTML = JSON.parse(xhr.response).value;
-          }
-        }
-        xhr.open('GET', incrementXHR.dataset.url, true);
-        xhr.send('');
-      });
-    </script>
     <a href="{% url "home" %}">Home</a>
   </body>
 </html>
